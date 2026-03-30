@@ -1,6 +1,5 @@
 from src.models import Apartment, Bill, Parameters, Tenant, Transfer
 
-
 class Manager:
     def __init__(self, parameters: Parameters):
         self.parameters = parameters 
@@ -17,3 +16,9 @@ class Manager:
         self.tenants = Tenant.from_json_file(self.parameters.tenants_json_path)
         self.transfers = Transfer.from_json_file(self.parameters.transfers_json_path)
         self.bills = Bill.from_json_file(self.parameters.bills_json_path)
+
+    def validate_tenant_apartments(self):
+        for _, tenant in self.tenants.items():
+            if tenant.apartment not in self.apartments:
+                return False
+        return True

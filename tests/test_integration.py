@@ -1,7 +1,7 @@
 from src.models import Apartment
 from src.manager import Manager
 from src.models import Parameters
-import json
+
 
 
 def test_load_data():
@@ -27,3 +27,11 @@ def test_tenant_names():
     ]
     for tenant in manager.tenants.values():
         assert tenant.name in names
+
+def test_tenant_assigned_apartment():
+    parameters = Parameters()
+    manager = Manager(parameters)
+    assert manager.validate_tenant_apartments() is True
+
+    manager.tenants["tenant-1"].apartment = "apartament-fgdjskjf" #apartment-fgdjskjf nie istnieje w apartments
+    assert manager.validate_tenant_apartments() is False
